@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb", "airbnb-typescript", "next/core-web-vitals", "prettier"],
+  "plugins": ["prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/button-has-type": "off",
+    "react/no-danger": "off",
+    "react/no-array-index-key": "off"
+  }
+}

@@ -1,0 +1,78 @@
+[class^='number-slide'],
+[class*=' number-slide'] {
+  color: #fff;
+}
+.navigation-wrapper {
+  position: relative;
+}
+
+.dots {
+  display: flex;
+  padding: 10px 0;
+  justify-content: center;
+}
+
+.dot {
+  border: none;
+  width: 10px;
+  height: 10px;
+  background: #c5c5c5;
+  border-radius: 50%;
+  margin: 0 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dot:focus {
+  outline: none;
+}
+
+.dot.active {
+  background: #000;
+}
+
+.arrow {
+  width: 44px; /* Tamaño de la flecha */
+  height: 44px; /* Tamaño de la flecha */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+  background-color: #2d2f31; /* Color de fondo de la flecha */
+  border-radius: 22px; /* Hace la flecha redonda */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+  z-index: 10; /* Asegura que esté encima de otros elementos */
+  transition: background-color 0.3s ease; /* Transición suave */
+  overflow: visible; /* Permite que se muestre fuera del contenedor */
+}
+
+.arrow:hover {
+  background-color: rgba(45, 47, 49, 0.9); /* Color con opacidad al pasar el mouse */
+}
+
+.arrow--left {
+  left: -30px; /* Ajusta la posición al interior del slider */
+}
+
+.arrow--right {
+  right: -30px; /* Ajusta la posición al interior del slider */
+}
+
+.arrow svg {
+  width: 20px; /* Ajusta el tamaño del ícono SVG */
+  height: 20px; /* Ajusta el tamaño del ícono SVG */
+  fill: #fff; /* Color del ícono */
+}
+
+.arrow--disabled {
+  background-color: #cccccc; /* Disabled background color */
+  cursor: default;
+}
+
+.arrow--disabled svg {
+  fill: #666666; /* Disabled icon color */
+}
