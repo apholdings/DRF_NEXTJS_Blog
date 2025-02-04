@@ -1124,7 +1124,7 @@ class GenerateFakePostsView(StandardAPIView):
 
         for _ in range(posts_to_generate):
             title = fake.sentence(nb_words=6)  # Generar título aleatorio
-            user = UserAccount.objects.get(username="test_editor")
+            user = UserAccount.objects.get(username="SoloPython")
             post = Post(
                 id=uuid.uuid4(),
                 user=user,
