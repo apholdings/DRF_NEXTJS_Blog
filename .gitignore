@@ -63,8 +63,8 @@ backend/__pypackages__/
 backend/celerybeat-schedule
 backend/celerybeat.pid
 backend/*.sage.py
-# backend/.env
-# backend/core/.env
+backend/.env
+backend/core/.env
 backend/.venv
 backend/env/
 backend/venv/
@@ -93,8 +93,8 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 frontend/.pnpm-debug.log*
-# frontend/.env*.local
-# frontend/.env
+frontend/.env*.local
+frontend/.env
 frontend/.vercel/
 frontend/*.tsbuildinfo
 frontend/next-env.d.ts
