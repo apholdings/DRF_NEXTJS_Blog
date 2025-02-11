@@ -97,6 +97,7 @@ class PostSerializer(serializers.ModelSerializer):
         Verifica si el usuario autenticado ha dado 'like' al post.
         """
         user = self.context.get('request').user
+        print(user)
         if user and user.is_authenticated:
             return PostLike.objects.filter(post=obj, user=user).exists()
         return False
@@ -122,6 +123,7 @@ class PostListSerializer(serializers.ModelSerializer):
             "created_at",
             "user",
             "featured",
+            "status"
         ]
 
     def get_view_count(self, obj):

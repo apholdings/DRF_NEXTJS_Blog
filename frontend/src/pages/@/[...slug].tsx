@@ -101,6 +101,7 @@ export default function Page({
   };
 
   const biographyPreview = sanitizedBio.slice(0, 600);
+  const shouldShowButton = sanitizedBio.length > 600;
 
   const isCustomer = user?.role === 'customer';
   const isOwner = myUser?.username === user?.username;
@@ -121,6 +122,7 @@ export default function Page({
       <Image
         width={1920}
         height={1080}
+        priority
         className="h-48 w-full object-cover lg:h-64"
         src={profile?.banner_picture?.url || ''}
         alt=""
@@ -163,20 +165,26 @@ export default function Page({
         </div>
         <div className="relative mt-12 pb-8">
           <p
+            className="prose"
             dangerouslySetInnerHTML={{
               __html: isExpanded ? sanitizedBio : biographyPreview,
             }}
           />
-          {!isExpanded && (
-            <div className="dark:from-dark-main absolute bottom-0 h-32 w-full bg-gradient-to-t from-white" />
+          {shouldShowButton && (
+            <div>
+              {!isExpanded && (
+                <div className="dark:from-dark-main absolute bottom-0 h-32 w-full bg-gradient-to-t from-white" />
+              )}
+
+              <button
+                onClick={toggleExpanded}
+                type="button"
+                className="absolute bottom-2 right-2 z-10 text-indigo-500 hover:text-indigo-700"
+              >
+                {isExpanded ? 'View less' : 'View more'}
+              </button>
+            </div>
           )}
-          <button
-            onClick={toggleExpanded}
-            type="button"
-            className="absolute bottom-2 right-2 z-10 text-indigo-500 hover:text-indigo-700"
-          >
-            {isExpanded ? 'View less' : 'View more'}
-          </button>
         </div>
         <div className="mt-2">
           <CustomTabs
@@ -184,7 +192,7 @@ export default function Page({
             panels={
               isOwner && !isCustomer
                 ? [
-                    <div className="mt-6" key={1}>
+                    <div className="mt-6" key="posts-author">
                       <ListPosts
                         loading={loading}
                         posts={posts}
@@ -193,16 +201,16 @@ export default function Page({
                         loadMore={loadMore}
                         handleDelete={handleDelete}
                         loadingDelete={loadingDelete}
+                        categories={categories}
+                        loadingCategories={loadingCategories}
                       />
                     </div>,
-                    <CreatePost
-                      key={2}
-                      categories={categories}
-                      loadingCategories={loadingCategories}
-                    />,
+                    <div className="mt-6" key="create-post">
+                      <CreatePost categories={categories} loadingCategories={loadingCategories} />
+                    </div>,
                   ]
                 : [
-                    <div className="mt-6" key={1}>
+                    <div className="mt-6" key="posts-customer">
                       <ListPosts
                         loading={loading}
                         posts={posts}
@@ -211,6 +219,8 @@ export default function Page({
                         loadMore={loadMore}
                         handleDelete={handleDelete}
                         loadingDelete={loadingDelete}
+                        categories={categories}
+                        loadingCategories={loadingCategories}
                       />
                     </div>,
                   ]

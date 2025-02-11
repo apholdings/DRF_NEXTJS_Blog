@@ -2,6 +2,7 @@ import { IPostList } from '@/interfaces/blog/IPost';
 import Button from '@/components/Button';
 import LoadingMoon from '@/components/loaders/LoadingMoon';
 import ListPostCardLoading from '@/components/loaders/ListPostCardLoading';
+import { ICategoryList } from '@/interfaces/blog/ICategory';
 import ListPostCard from './ListPostCard';
 
 interface ComponentProps {
@@ -12,6 +13,8 @@ interface ComponentProps {
   nextUrl?: string | undefined;
   handleDelete?: (slug: string) => Promise<void>;
   loadingDelete?: boolean;
+  categories: ICategoryList[];
+  loadingCategories: boolean;
 }
 
 export default function ListPosts({
@@ -22,6 +25,8 @@ export default function ListPosts({
   nextUrl,
   handleDelete,
   loadingDelete,
+  categories,
+  loadingCategories,
 }: ComponentProps) {
   return (
     <div>
@@ -29,13 +34,15 @@ export default function ListPosts({
         <ListPostCardLoading />
       ) : (
         <div>
-          <ul>
+          <ul className="space-y-12">
             {posts?.map((post) => (
               <ListPostCard
                 key={post?.id}
                 post={post}
                 handleDelete={handleDelete}
                 loadingDelete={loadingDelete}
+                categories={categories}
+                loadingCategories={loadingCategories}
               />
             ))}
           </ul>

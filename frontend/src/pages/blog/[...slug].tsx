@@ -11,21 +11,33 @@ import usePosts from '@/hooks/usePosts';
 import PostsList from '@/components/pages/blog/PostsList';
 import EmailInput from '@/components/cta/EmailInput';
 import SEO, { SEOProps } from '@/components/SEO';
+import Like from '@/components/pages/blog/Like';
+import Share from '@/components/pages/blog/Share';
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   const { slug } = context.params as { slug: string };
 
+  const { req } = context;
+  const accessToken = req.cookies.access;
+
   let post: IPost | null = null;
 
   try {
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+      'API-Key': `${process.env.BACKEND_API_KEY}`,
+    };
+
+    if (accessToken) {
+      headers.Authorization = `JWT ${accessToken}`;
+    }
+
     const apiRes = await fetch(`${process.env.API_URL}/api/blog/post/?slug=${slug}`, {
-      headers: {
-        Accept: 'application/json',
-        'API-Key': `${process.env.BACKEND_API_KEY}`,
-      },
+      headers,
     });
+
     const data = await apiRes.json();
     if (apiRes.status === 200) {
       post = data.results;
@@ -93,12 +105,19 @@ export default function Page({ post }: InferGetServerSidePropsType<typeof getSer
   const modifiedContent = addIdsToHeadings(parsedContent, post?.headings);
 
   const categorySlug = useMemo(() => [post?.category?.slug], [post?.category?.slug]);
+
   const { posts, loading } = usePosts({ categories: categorySlug });
+
+  const filteredPosts = useMemo(
+    () => posts?.filter((relatedPost) => relatedPost.slug !== post?.slug),
+    [posts, post?.slug],
+  );
 
   return (
     <div>
       <SEO {...SEOList} />
       <Header post={post} />
+
       <div className="block lg:relative lg:flex lg:flex-wrap">
         {post?.headings?.length > 0 && (
           <div className="w-full md:top-0 lg:sticky lg:h-full lg:w-1/4">
@@ -106,13 +125,17 @@ export default function Page({ post }: InferGetServerSidePropsType<typeof getSer
           </div>
         )}
         <div className="lg:w-2/2 mx-auto w-full max-w-3xl px-8 leading-7 text-gray-700 lg:px-2 xl:w-1/2">
+          <div className="flex items-center space-x-2">
+            <Like post={post} />
+            <Share post={post} />
+          </div>
           <Article post={post} content={modifiedContent} />
         </div>
         <div className="hidden w-full md:top-0 xl:sticky xl:flex xl:h-full xl:w-1/4">
           <EmailInput />
         </div>
       </div>
-      <PostsList title="Related posts" posts={posts} loading={loading} />
+      <PostsList title="Related posts" posts={filteredPosts} loading={loading} />
     </div>
   );
 }

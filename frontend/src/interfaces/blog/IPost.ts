@@ -34,4 +34,5 @@ export interface IPostList {
   category: ICategoryList;
   view_count: string;
   user: IUser;
+  status: string;
 }

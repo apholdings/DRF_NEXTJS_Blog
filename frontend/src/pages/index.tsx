@@ -1,5 +1,10 @@
+import PostsList from '@/components/pages/blog/PostsList';
+import CategoriesBar from '@/components/pages/categories/CategoriesBar';
+import Header from '@/components/pages/home/Header';
 import SEO, { SEOProps } from '@/components/SEO';
 import Layout from '@/hocs/Layout';
+import usePostCategories from '@/hooks/usePostCategories';
+import usePosts from '@/hooks/usePosts';
 
 export default function Home() {
   const SEOList: SEOProps = {
@@ -14,10 +19,15 @@ export default function Home() {
     twitterHandle: '@boomslag_',
   };
 
+  const { categories, loading: loadingCategories } = usePostCategories();
+  const { posts, loading } = usePosts({ showFeatured: false });
+
   return (
     <div>
       <SEO {...SEOList} />
-      Home page
+      <Header />
+      <CategoriesBar loading={loadingCategories} categories={categories} />
+      <PostsList title="Recent posts" posts={posts} loading={loading} />
     </div>
   );
 }

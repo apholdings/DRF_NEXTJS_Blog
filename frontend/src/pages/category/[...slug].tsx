@@ -4,6 +4,7 @@ import Layout from '@/hocs/Layout';
 import usePosts from '@/hooks/usePosts';
 import { ICategory } from '@/interfaces/blog/ICategory';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { useMemo } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -44,11 +45,15 @@ export default function Page({
   slug,
   category,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  // Inside your Page component
+  const categories = useMemo(() => [slug], [slug]);
+
   const { posts: featuredPosts, loading: loadingFeaturedPosts } = usePosts({
     showFeatured: true,
-    categories: [slug],
+    categories,
   });
-  const { posts, loading } = usePosts({ showFeatured: false, categories: [slug] });
+
+  const { posts, loading } = usePosts({ showFeatured: false, categories });
 
   return (
     <div>

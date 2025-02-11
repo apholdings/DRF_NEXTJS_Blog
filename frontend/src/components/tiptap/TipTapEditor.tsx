@@ -14,6 +14,7 @@ function TiptapEditor({ data, setData, maxTextLength }: TipTapEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: data, // Inicialización inicial
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: `focus:outline-none focus:ring-transparent py-2 px-1 w-full prose`,

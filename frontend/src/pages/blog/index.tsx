@@ -11,7 +11,9 @@ export default function Page() {
   const { categories, loading: loadingCategories } = usePostCategories();
   return (
     <div>
-      <FeaturedPosts posts={featuredPosts} loading={loadingFeaturedPosts} />
+      {featuredPosts.length > 0 && (
+        <FeaturedPosts posts={featuredPosts} loading={loadingFeaturedPosts} />
+      )}
       <CategoriesBar loading={loadingCategories} categories={categories} />
       <PostsList title="Recent posts" posts={posts} loading={loading} />
     </div>

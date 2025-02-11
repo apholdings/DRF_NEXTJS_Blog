@@ -24,7 +24,7 @@ export default function PostCard({ post }: ComponentProps) {
       )}
       <div className="max-w-xl">
         <div className="mt-8 flex items-center gap-x-4 text-xs">
-          <time dateTime={post?.updated_at} className="text-gray-500">
+          <time dateTime={post?.updated_at} className="dark:text-dark-txt text-gray-500">
             {moment(post?.updated_at).fromNow()}
           </time>
           <Link
@@ -35,13 +35,15 @@ export default function PostCard({ post }: ComponentProps) {
           </Link>
         </div>
         <div className="group relative">
-          <h3 className="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
+          <h3 className="dark:group-hover:text-dark-txt mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600 dark:text-white">
             <Link href={`/blog/${post?.slug}`}>
               <span className="absolute inset-0" />
               {post?.title}
             </Link>
           </h3>
-          <p className="mt-5 line-clamp-3 text-sm/6 text-gray-600">{post?.description}</p>
+          <p className="dark:text-dark-txt-secondary mt-5 line-clamp-3 text-sm/6 text-gray-600">
+            {post?.description}
+          </p>
         </div>
         <div className="relative mt-8 flex items-center gap-x-4">
           <Image
@@ -52,13 +54,13 @@ export default function PostCard({ post }: ComponentProps) {
             className="size-10 rounded-full bg-gray-100"
           />
           <div className="text-sm/6">
-            <p className="font-semibold text-gray-900">
+            <p className="dark:text-dark-txt font-semibold text-gray-900">
               <Link href={`/@/${post?.user?.username}`}>
                 <span className="absolute inset-0" />
                 {post?.user?.username}
               </Link>
             </p>
-            <p className="text-gray-600">{post?.user?.role}</p>
+            <p className="dark:text-dark-txt-secondary text-gray-600">{post?.user?.role}</p>
           </div>
         </div>
       </div>

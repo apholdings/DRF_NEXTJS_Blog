@@ -467,7 +467,7 @@ class PostDetailView(StandardAPIView):
 
             # Si no está en caché, obtener el post de la base de datos
             try:
-                post = Post.postobjects.get(slug=slug)
+                post = Post.objects.get(slug=slug)
             except Post.DoesNotExist:
                 raise NotFound(f"Post {slug} does not exist.")
 

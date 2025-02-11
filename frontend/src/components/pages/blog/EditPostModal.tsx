@@ -6,7 +6,7 @@ import EditSlug from '@/components/forms/EditSlug';
 import EditText from '@/components/forms/EditText';
 import LoadingMoon from '@/components/loaders/LoadingMoon';
 import { ToastError, ToastSuccess } from '@/components/toast/alerts';
-import usePostCategories from '@/hooks/usePostCategories';
+import { ICategoryList } from '@/interfaces/blog/ICategory';
 import { IPost } from '@/interfaces/blog/IPost';
 import { RootState } from '@/redux/reducers';
 import fetchPost from '@/utils/api/blog/post/get';
@@ -21,9 +21,17 @@ interface ComponentProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   slug: string;
+  categories: ICategoryList[];
+  loadingCategories: boolean;
 }
 
-export default function EditPostModal({ open, setOpen, slug }: ComponentProps) {
+export default function EditPostModal({
+  open,
+  setOpen,
+  slug,
+  categories,
+  loadingCategories,
+}: ComponentProps) {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,8 +44,6 @@ export default function EditPostModal({ open, setOpen, slug }: ComponentProps) {
   const [keywords, setKeywords] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [status, setStatus] = useState<string>('draft');
-
-  const { categories, loading: loadingCategories } = usePostCategories();
 
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [percentage, setPercentage] = useState<number>(0);

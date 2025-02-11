@@ -112,11 +112,11 @@ export default function PostsList({ posts, loading, title, description }: Compon
   }
 
   return (
-    <div className="bg-white py-24 sm:py-28">
+    <div className="py-24 sm:py-28">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {title !== '' && (
           <div className="mx-auto text-left">
-            <h2 className="text-balance text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+            <h2 className="text-balance text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
               {title}
             </h2>
             {description !== '' && <p className="mt-2 text-lg/8 text-gray-600">{description}</p>}

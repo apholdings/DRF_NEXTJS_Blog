@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ICategoryList } from '@/interfaces/blog/ICategory';
 import DeletePostModal from './DeletePostModal';
 import EditPostModal from './EditPostModal';
 
@@ -12,14 +13,24 @@ interface ComponentProps {
   post: IPostList;
   handleDelete?: (slug: string) => Promise<void>;
   loadingDelete?: boolean;
+  categories: ICategoryList[];
+  loadingCategories: boolean;
 }
 
-export default function ListPostCard({ post, handleDelete, loadingDelete }: ComponentProps) {
+export default function ListPostCard({
+  post,
+  handleDelete,
+  loadingDelete,
+  categories,
+  loadingCategories,
+}: ComponentProps) {
   const user = useSelector((state: RootState) => state.auth.user);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
+
+  const isOwner = user?.username === post?.user?.username;
   return (
-    <article key={post.id} className="relative isolate flex flex-col gap-8 lg:flex-row">
+    <article key={post.id} className="w-full rounded-lg p-4">
       {post?.thumbnail && (
         <div className="relative aspect-video sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
           <Image
@@ -76,8 +87,17 @@ export default function ListPostCard({ post, handleDelete, loadingDelete }: Comp
               </p>
             </div>
           </div>
-          {user?.username === post?.user?.username && (
+          {isOwner && (
             <div className="ml-auto flex items-center space-x-4">
+              {post?.status === 'draft' ? (
+                <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                  Draft
+                </span>
+              ) : (
+                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-500/10">
+                  Published
+                </span>
+              )}
               <button
                 onClick={() => {
                   setOpenEdit(!openEdit);
@@ -107,7 +127,13 @@ export default function ListPostCard({ post, handleDelete, loadingDelete }: Comp
         handleDelete={handleDelete || (() => Promise.resolve())}
         loadingDelete={loadingDelete || false}
       />
-      <EditPostModal open={openEdit} setOpen={setOpenEdit} slug={post?.slug} />
+      <EditPostModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        slug={post?.slug}
+        categories={categories}
+        loadingCategories={loadingCategories}
+      />
     </article>
   );
 }

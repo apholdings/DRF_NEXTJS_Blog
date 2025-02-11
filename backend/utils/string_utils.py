@@ -93,3 +93,43 @@ def sanitize_url(url):
         raise serializers.ValidationError("Invalid URL format.")
 
     return cleaned_url
+
+
+def sanitize_email(email):
+    """Sanitizes and validates an email address to ensure it contains only safe characters."""
+    if email is None:
+        return ""
+
+    # Strip all unwanted HTML or special characters
+    cleaned_email = bleach.clean(email, tags=[], strip=True)
+
+    # Define a regex pattern for validating an email address format
+    email_pattern = re.compile(
+        r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+    )
+
+    # Check if the email matches the pattern
+    if not email_pattern.match(cleaned_email):
+        raise serializers.ValidationError("Invalid email format.")
+
+    return cleaned_email
+
+def sanitize_phone_number(phone_number):
+    """Sanitizes and validates a phone number to ensure it contains only safe characters."""
+    if phone_number is None:
+        return ""
+
+    # Strip all unwanted HTML or special characters
+    cleaned_phone_number = bleach.clean(phone_number, tags=[], strip=True)
+
+    # Define a regex pattern for validating a phone number format (e.g., +1 (123) 456-7890 or 123-456-7890)
+    phone_number_pattern = re.compile(r"^(\+?\d{1,3})?[-.\s]?(\(?\d{1,4}\)?[-.\s]?)?[\d\-.\s]{5,15}$")
+
+    # Check if the phone number matches the pattern
+    if not phone_number_pattern.match(cleaned_phone_number):
+        raise serializers.ValidationError("Invalid phone number format.")
+
+    # Optionally, remove non-numeric characters (if you want to return only numbers)
+    sanitized_phone_number = re.sub(r"\D", "", cleaned_phone_number)  # Remove all non-digit characters
+
+    return sanitized_phone_number

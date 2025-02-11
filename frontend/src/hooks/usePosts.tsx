@@ -52,7 +52,7 @@ export default function usePosts({ username, showFeatured, categories, searchBy 
       }
     },
     // eslint-disable-next-line
-    [pageSize, ordering, sorting, author, categories],
+    [pageSize, ordering, sorting, author, categories, showFeatured],
   );
 
   useEffect(() => {
